@@ -1,0 +1,74 @@
+---
+title: Secure Software Delivery Architecture
+description: A Platform Engineer's Guide to Trust, Identity, and Software Supply Chains — from Git commit to running workload.
+template: splash
+hero:
+  tagline: From Git Commit to Running Workload — the engineering discipline behind how mature organizations ship software safely.
+  actions:
+    - text: Start with the Foundations
+      link: /foundations/why-secure-software-delivery-exists/
+      icon: right-arrow
+      variant: primary
+    - text: How to read this handbook
+      link: /introduction/
+      variant: secondary
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+## The one question this handbook answers
+
+> When a container starts running in production, why should anyone believe it is the code the developer wrote?
+
+Every chapter is one link in the chain of custody that answers that question: **Developer → Git → Build → Artifact → Deployment → Runtime** — identity, evidence, and independent verification at every boundary.
+
+## Explore the handbook, part by part
+
+<CardGrid>
+  <LinkCard
+    title="I. Foundations"
+    description="Why secure software delivery exists, and the trust model that unifies every later chapter."
+    href="/foundations/why-secure-software-delivery-exists/"
+  />
+  <LinkCard
+    title="II. Source Trust"
+    description="Git as the root of trust, and the repository governance that protects it."
+    href="/source-trust/git-as-the-root-of-trust/"
+  />
+  <LinkCard
+    title="III. Build Trust"
+    description="CI as a trust factory, and giving builds a verifiable identity."
+    href="/build-trust/ci-as-a-trust-factory/"
+  />
+  <LinkCard
+    title="IV. Artifact Trust"
+    description="The artifact lifecycle, provenance, SBOMs, signatures, and attestations."
+    href="/artifact-trust/the-artifact-lifecycle/"
+  />
+  <LinkCard
+    title="V. Deployment Trust"
+    description="GitOps, deployment authorization, and admission controllers."
+    href="/deployment-trust/gitops/"
+  />
+  <LinkCard
+    title="VI. Runtime Trust"
+    description="Workload identity, runtime authorization, and drift detection."
+    href="/runtime-trust/workload-identity/"
+  />
+  <LinkCard
+    title="VII. Platform Security"
+    description="Secrets architecture, policy as code, threat modeling, and platform architecture."
+    href="/platform-security/secrets-architecture/"
+  />
+  <LinkCard
+    title="VIII. Operations"
+    description="Incident response, maturity models, and running architecture reviews."
+    href="/operations/incident-response/"
+  />
+</CardGrid>
+
+<LinkCard
+  title="Closing — The Enduring Principles"
+  description="Ten principles that outlast any tool: the whole handbook, distilled."
+  href="/enduring-principles/"
+/>

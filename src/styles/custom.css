@@ -1,0 +1,287 @@
+/* ==========================================================================
+   Secure Software Delivery Architecture — Starlight theme
+
+   LIGHT MODE (locked): "Deep Sea & Coral" —
+   coolors.co/0f2830-14454f-6faab0-ff7f66-f2ede4
+   Shell-white paper, dark sea ink, coral accent darkened for contrast.
+
+   DARK MODE: pitch black + white. Pure grayscale foundation; coral stays
+   as the single accent (same hue family as light mode, full brightness
+   against black), sea/red/gold survive only as semantic aside colors.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --sl-font: 'Inter', system-ui, sans-serif;
+  --sl-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Pitch black + white, untinted grayscale */
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #e6e6e6;
+  --sl-color-gray-2: #bfbfbf;
+  --sl-color-gray-3: #8c8c8c;
+  --sl-color-gray-4: #595959;
+  --sl-color-gray-5: #2e2e2e;
+  --sl-color-gray-6: #171717;
+  --sl-color-black: #000000;
+
+  /* Accent: coral — same hue family as the locked light mode */
+  --sl-color-accent-low: #33150d;
+  --sl-color-accent: #ff7f66;
+  --sl-color-accent-high: #ffb8a8;
+
+  /* Sea-blue secondary + semantic-only aside colors, tuned against black */
+  --ssda-sea: #7fc4cc;
+  --ssda-sea-low: #0d2226;
+  --ssda-sea-high: #d5eef1;
+  --ssda-red: #ff6b6b;
+  --ssda-red-low: #2a0d0d;
+  --ssda-red-high: #ffc9c9;
+  --ssda-gold: #e9c46a;
+  --ssda-gold-low: #292008;
+  --ssda-gold-high: #f6e3b4;
+
+  /* Dialogue: cool sea questions, warm coral answers */
+  --ssda-speaker-e: #7fc4cc;
+  --ssda-speaker-a: #ff7f66;
+}
+
+:root[data-theme='light'] {
+  /* Shell-white paper, dark sea ink */
+  --sl-color-white: #12333c;
+  --sl-color-gray-1: #1d4650;
+  --sl-color-gray-2: #2d5f6a;
+  --sl-color-gray-3: #55808a;
+  --sl-color-gray-4: #93b3b9;
+  --sl-color-gray-5: #cfdcdb;
+  --sl-color-gray-6: #ede8de;
+  --sl-color-gray-7: #f2ede4;
+  --sl-color-black: #fdfbf8;
+
+  /* Coral, darkened for contrast on light paper */
+  --sl-color-accent-low: #fceae4;
+  --sl-color-accent: #d1492f;
+  --sl-color-accent-high: #8f2e1c;
+
+  --ssda-sea: #2d6a76;
+  --ssda-sea-low: #e8f2f3;
+  --ssda-sea-high: #14454f;
+  --ssda-red: #c03030;
+  --ssda-red-low: #fdefec;
+  --ssda-red-high: #7f1d1d;
+  --ssda-gold: #a1720b;
+  --ssda-gold-low: #faf3e0;
+  --ssda-gold-high: #6b4a08;
+
+  --ssda-speaker-e: #3d6f7a;
+  --ssda-speaker-a: #d1492f;
+}
+
+/* Asides: tip carries the coral accent; note uses the sea family; red and
+   amber are reserved for their semantic meaning only. */
+.starlight-aside--tip {
+  --sl-color-asides-text-accent: var(--sl-color-accent-high);
+  --sl-color-asides-border: var(--sl-color-accent);
+  background-color: var(--sl-color-accent-low);
+}
+
+.starlight-aside--note {
+  --sl-color-asides-text-accent: var(--ssda-sea-high);
+  --sl-color-asides-border: var(--ssda-sea);
+  background-color: var(--ssda-sea-low);
+}
+
+.starlight-aside--caution {
+  --sl-color-asides-text-accent: var(--ssda-gold-high);
+  --sl-color-asides-border: var(--ssda-gold);
+  background-color: var(--ssda-gold-low);
+}
+
+.starlight-aside--danger {
+  --sl-color-asides-text-accent: var(--ssda-red-high);
+  --sl-color-asides-border: var(--ssda-red);
+  background-color: var(--ssda-red-low);
+}
+
+/* ---------------------------------------------------------------------
+   Navbar — decongest and give it presence instead of the cramped default
+   --------------------------------------------------------------------- */
+:root {
+  --sl-nav-height: 4rem;
+  --sl-nav-gap: 1.5rem;
+}
+
+header.header {
+  border-bottom: 1px solid var(--sl-color-gray-5);
+  background-color: var(--sl-color-black);
+}
+
+.site-title {
+  font-family: var(--sl-font-mono);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-size: clamp(0.85rem, 1.4vw, 1rem);
+}
+
+/* Hide the divider Starlight renders even when no social links are configured */
+.social-icons:empty::after {
+  display: none;
+}
+
+.right-group {
+  gap: 1rem;
+}
+
+/* Headings lean on the mono face — reads like annotated ledger entries */
+h1, h2, h3 {
+  font-family: var(--sl-font-mono);
+  letter-spacing: -0.01em;
+}
+
+/* Code blocks / ASCII diagrams: the chain-of-custody "wire" motif.
+   Foreground/background pairing is delegated to the explicit
+   github-dark-default / github-light-default Expressive Code themes
+   (see astro.config.mjs) so text always has correct contrast in both
+   color schemes — only the frame is themed here. */
+.expressive-code,
+pre {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.375rem;
+}
+
+/* Overflow resilience: the ASCII chain-of-custody diagrams are ~80 chars
+   wide. A slightly smaller mono size lets them fit the content column at
+   desktop widths; anything wider scrolls inside the block instead of
+   breaking the layout. */
+.expressive-code pre,
+.sl-markdown-content pre {
+  font-size: 0.8125rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sl-color-gray-4) transparent;
+}
+
+@media (max-width: 50rem) {
+  .expressive-code pre,
+  .sl-markdown-content pre {
+    font-size: 0.72rem;
+  }
+}
+
+/* Blockquotes — the recurring "single question" callouts */
+.sl-markdown-content blockquote {
+  border-left: 3px solid var(--sl-color-accent);
+  background: var(--sl-color-accent-low);
+  border-radius: 0 0.25rem 0.25rem 0;
+  padding: 0.75rem 1rem;
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------------------
+   Architecture Conversation
+   Every chapter ends with this heading as its final section, alternating
+   **E:** / **A:** paragraphs. Style them as a two-speaker dialogue.
+   --------------------------------------------------------------------- */
+h2#architecture-conversation {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--sl-color-gray-5);
+}
+
+h2#architecture-conversation ~ p {
+  position: relative;
+  margin: 1rem 0;
+  padding: 0.65rem 1rem 0.65rem 1.15rem;
+  border-radius: 0.375rem;
+  background: var(--sl-color-gray-6);
+  border-left: 3px solid var(--sl-color-gray-4);
+}
+
+/* Dialogue always opens with E, then strictly alternates E/A */
+h2#architecture-conversation ~ p:nth-of-type(odd) {
+  border-left-color: var(--ssda-speaker-e);
+}
+
+h2#architecture-conversation ~ p:nth-of-type(even) {
+  border-left-color: var(--ssda-speaker-a);
+  background: var(--sl-color-accent-low);
+}
+
+h2#architecture-conversation ~ p strong:first-child {
+  font-family: var(--sl-font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  margin-right: 0.35rem;
+}
+
+h2#architecture-conversation ~ p:nth-of-type(odd) strong:first-child {
+  color: var(--ssda-speaker-e);
+}
+
+h2#architecture-conversation ~ p:nth-of-type(even) strong:first-child {
+  color: var(--ssda-speaker-a);
+}
+
+/* Trust-boundary tables: monospace + tighter grid, feels like a spec sheet */
+.sl-markdown-content table {
+  font-size: 0.875rem;
+}
+
+.sl-markdown-content th {
+  font-family: var(--sl-font-mono);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+}
+
+/* Hero on the landing page: slightly tighter tagline, mono accent word */
+.hero .tagline {
+  font-family: var(--sl-font);
+}
+
+/* Starlight's `secondary` LinkButton uses `border-color: inherit`, which
+   computes to an invisible border in the hero — it reads as plain text.
+   Make it an unmistakable outlined pill, the counterpart of the filled
+   primary button. */
+.sl-link-button.secondary {
+  border: 2px solid var(--sl-color-gray-2);
+  background: transparent;
+  color: var(--sl-color-white);
+  font-weight: 600;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.sl-link-button.secondary:hover {
+  border-color: var(--sl-color-accent);
+  color: var(--sl-color-accent);
+  background: var(--sl-color-accent-low);
+}
+
+/* ---------------------------------------------------------------------
+   Landing page — part-by-part navigation grid (LinkCard grid)
+   --------------------------------------------------------------------- */
+.sl-link-card {
+  border-color: var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sl-link-card:hover {
+  border-color: var(--sl-color-accent);
+  transform: translateY(-2px);
+}
+
+.sl-link-card .icon {
+  color: var(--sl-color-accent);
+}
+
+/* Light mode: a soft shadow reads as "polished" where a flat border alone looks bare */
+:root[data-theme='light'] .sl-link-card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+:root[data-theme='light'] .sl-link-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}

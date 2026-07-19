@@ -1,0 +1,19 @@
+{
+  "name": "ssdlc-handbook",
+  "version": "1.0.0",
+  "description": "Secure Software Delivery Architecture handbook — an Astro Starlight documentation site.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@astrojs/starlight": "^0.41.3",
+    "astro": "^7.1.1",
+    "sharp": "^0.35.3"
+  }
+}
