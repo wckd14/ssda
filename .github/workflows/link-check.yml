@@ -26,21 +26,20 @@ jobs:
       - name: Check links
         uses: lycheeverse/lychee-action@v2
         with:
-          # Check every HTML file in the built output.
-          # --base tells lychee to resolve root-relative hrefs against dist/client.
-          # --exclude-path skips the PDF downloads (binary, not HTTP links).
-          # --exclude skips mailto: and the Cloudflare analytics endpoint.
+          # --root-dir resolves root-relative hrefs (e.g. /foundations/...) against
+          # the built output. Must be an absolute path — ${{ github.workspace }}
+          # expands before the step runs. Glob must be unquoted for bash to expand it.
           args: >
-            --base dist/client
-            --exclude-path dist/client/downloads
+            --root-dir ${{ github.workspace }}/dist/client
             --exclude "^mailto:"
-            --exclude "cloudflareinsights\.com"
-            --exclude "fonts\.googleapis\.com"
+            --exclude "cloudflareinsights\\.com"
+            --exclude "fonts\\.googleapis\\.com"
+            --exclude "\\.pdf$"
             --timeout 20
             --max-retries 3
             --accept 200,206,429
             --no-progress
-            'dist/client/**/*.html'
+            ./dist/client/**/*.html
           fail: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
