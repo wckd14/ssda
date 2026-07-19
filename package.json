@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "node scripts/generate-llms.mjs && astro build",
+    "build": "node scripts/generate-llms.mjs && node scripts/generate-og-pages.mjs && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "assets": "node scripts/generate-assets.mjs",
+    "assets": "node scripts/generate-assets.mjs && node scripts/generate-og-pages.mjs",
     "llms": "node scripts/generate-llms.mjs",
     "generate-types": "wrangler types"
   },

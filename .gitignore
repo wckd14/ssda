@@ -5,6 +5,9 @@ dist/
 public/llms.txt
 public/llms-full.txt
 
+# generated at build time (see scripts/generate-og-pages.mjs)
+public/og/
+
 # generated types
 .astro/
 

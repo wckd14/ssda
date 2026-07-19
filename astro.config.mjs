@@ -26,22 +26,14 @@ export default defineConfig({
       expressiveCode: {
         themes: ['github-dark-default', 'github-light-default'],
       },
+      components: {
+        // Per-page og:image / twitter:image — see src/components/Head.astro.
+        // The global head[] below handles everything else.
+        Head: './src/components/Head.astro',
+      },
       head: [
-        // --- Social preview (Open Graph + Twitter) ---------------------------
-        // Starlight emits og:title/description/type/site_name and twitter:card
-        // itself, but no image. Supply an absolute one so links unfurl with a
-        // rich card everywhere.
-        { tag: 'meta', attrs: { property: 'og:image', content: `${site}/og.png` } },
-        { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
-        { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
-        {
-          tag: 'meta',
-          attrs: {
-            property: 'og:image:alt',
-            content: 'Secure Software Delivery Architecture — the handbook',
-          },
-        },
-        { tag: 'meta', attrs: { name: 'twitter:image', content: `${site}/og.png` } },
+        // og:image / twitter:image are injected per-page by the Head component
+        // override above; they are intentionally absent here.
         // --- Authorship + icons ---------------------------------------------
         { tag: 'meta', attrs: { name: 'author', content: 'wckd14' } },
         { tag: 'meta', attrs: { name: 'theme-color', content: '#000000' } },

@@ -1,0 +1,24 @@
+---
+// Starlight Head override — emits per-page og:image / twitter:image.
+// The global head[] in astro.config.mjs handles everything else;
+// only these two image tags are managed here so each page gets its own card.
+import Default from '@astrojs/starlight/components/Head.astro';
+
+const SITE = 'https://securesoftwaredelivery.wckd14.xyz';
+
+// Derive slug from the request URL: '/' → '' (homepage), '/foundations/why-...' → 'foundations/why-...'
+const slug = Astro.url.pathname.replace(/^\/|\/$/g, '');
+
+// Homepage uses the branded full-site OG image; every other page has its own.
+const ogImage = slug ? `${SITE}/og/${slug}.png` : `${SITE}/og.png`;
+
+const pageTitle = (Astro.props as any).entry?.data?.title
+  ?? 'Secure Software Delivery Architecture';
+---
+
+<Default {...Astro.props} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${pageTitle} — SSDA Handbook`} />
+<meta name="twitter:image" content={ogImage} />
