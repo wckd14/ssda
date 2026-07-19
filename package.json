@@ -1,5 +1,5 @@
 {
-  "name": "ssdlc-handbook",
+  "name": "ssda",
   "version": "1.0.0",
   "description": "Secure Software Delivery Architecture handbook — an Astro Starlight documentation site.",
   "type": "module",
@@ -8,12 +8,17 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate-types": "wrangler types"
   },
   "license": "ISC",
   "dependencies": {
+    "@astrojs/cloudflare": "^14.1.3",
     "@astrojs/starlight": "^0.41.3",
     "astro": "^7.1.1",
     "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "wrangler": "^4.112.0"
   }
 }
