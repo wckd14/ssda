@@ -53,6 +53,17 @@ export default defineConfig({
           tag: 'link',
           attrs: { rel: 'icon', href: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
         },
+        // --- Cloudflare Web Analytics ----------------------------------------
+        // Cookieless, privacy-first analytics. Replace the token value with the
+        // one from dash.cloudflare.com → Web Analytics → your site → JS snippet.
+        {
+          tag: 'script',
+          attrs: {
+            defer: true,
+            src: 'https://static.cloudflareinsights.com/beacon.min.js',
+            'data-cf-beacon': '{"token": "REPLACE_WITH_CF_ANALYTICS_TOKEN"}',
+          },
+        },
         // --- Structured data (schema.org) -----------------------------------
         // Helps search engines model the site as an authored reference work.
         {
@@ -72,7 +83,7 @@ export default defineConfig({
         },
       ],
       sidebar: [
-        { label: 'Start Here', items: ['introduction', 'downloads'] },
+        { label: 'Start Here', items: ['introduction', 'downloads', 'glossary'] },
         { label: 'Foundations', items: [{ autogenerate: { directory: 'foundations' } }] },
         { label: 'Source Trust', items: [{ autogenerate: { directory: 'source-trust' } }] },
         { label: 'Build Trust', items: [{ autogenerate: { directory: 'build-trust' } }] },

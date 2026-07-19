@@ -1,0 +1,46 @@
+name: Broken link check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Check every HTML file in the built output.
+          # --base tells lychee to resolve root-relative hrefs against dist/client.
+          # --exclude-path skips the PDF downloads (binary, not HTTP links).
+          # --exclude skips mailto: and the Cloudflare analytics endpoint.
+          args: >
+            --base dist/client
+            --exclude-path dist/client/downloads
+            --exclude "^mailto:"
+            --exclude "cloudflareinsights\.com"
+            --exclude "fonts\.googleapis\.com"
+            --timeout 20
+            --max-retries 3
+            --accept 200,206,429
+            --no-progress
+            'dist/client/**/*.html'
+          fail: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
