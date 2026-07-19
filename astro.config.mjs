@@ -72,7 +72,7 @@ export default defineConfig({
         },
       ],
       sidebar: [
-        { label: 'Start Here', items: ['introduction'] },
+        { label: 'Start Here', items: ['introduction', 'downloads'] },
         { label: 'Foundations', items: [{ autogenerate: { directory: 'foundations' } }] },
         { label: 'Source Trust', items: [{ autogenerate: { directory: 'source-trust' } }] },
         { label: 'Build Trust', items: [{ autogenerate: { directory: 'build-trust' } }] },
