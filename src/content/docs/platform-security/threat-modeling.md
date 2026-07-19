@@ -1,6 +1,6 @@
 ---
 title: Threat Modeling
-description: "Every chapter so far handed you controls."
+description: "Threat modeling as a repeatable method, not a checklist: how to systematically interrogate an architecture and surface where trust is misplaced — the questions behind every control."
 sidebar:
   label: 20. Threat Modeling
   order: 3

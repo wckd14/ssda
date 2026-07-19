@@ -1,6 +1,6 @@
 ---
 title: "Platform Architecture: Putting It All Together"
-description: "Twenty chapters gave you twenty controls."
+description: "Assembling every control into one coherent platform: how identity flows into signing, evidence into admission, and each layer enables the next — designed end to end."
 sidebar:
   label: 21. Platform Architecture
   order: 4

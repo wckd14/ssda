@@ -1,0 +1,12 @@
+# Secure Software Delivery Architecture — https://securesoftwaredelivery.wckd14.xyz
+# All content is public and meant to be indexed and referenced freely.
+
+User-agent: *
+Allow: /
+
+# XML sitemap (generated at build time by Starlight)
+Sitemap: https://securesoftwaredelivery.wckd14.xyz/sitemap-index.xml
+
+# Machine-readable handbook for LLMs (see https://llmstxt.org):
+#   https://securesoftwaredelivery.wckd14.xyz/llms.txt
+#   https://securesoftwaredelivery.wckd14.xyz/llms-full.txt

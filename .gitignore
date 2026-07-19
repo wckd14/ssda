@@ -1,6 +1,10 @@
 # build output
 dist/
 
+# generated at build time from src/content (see scripts/generate-llms.mjs)
+public/llms.txt
+public/llms-full.txt
+
 # generated types
 .astro/
 

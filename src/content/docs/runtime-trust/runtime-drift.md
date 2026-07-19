@@ -1,6 +1,6 @@
 ---
 title: Runtime Drift
-description: "Every control in this book verifies a workload at a point in time — review at merge, evidence at build, the dossier at admission, identity at issuance."
+description: "Every control verifies a workload at a point in time — then it runs for weeks. Runtime drift is the gap between the artifact you verified and the process actually running now."
 sidebar:
   label: 17. Runtime Drift
   order: 3

@@ -1,6 +1,6 @@
 ---
 title: Build Identity
-description: "Every attack story in Chapter 5 ends the same way: the attacker reaches the credentials."
+description: "Why static CI secrets cause breaches like Codecov, and how OIDC replaces them with a short-lived, context-bound build identity that also unlocks keyless signing."
 sidebar:
   label: 6. Build Identity
   order: 2

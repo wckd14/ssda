@@ -1,6 +1,6 @@
 ---
 title: Architecture Reviews
-description: "This is the chapter the whole book was training you for."
+description: "How to sit in front of an unfamiliar platform and find where trust is misplaced within an hour — architecture review as the applied form of every control in the book."
 sidebar:
   label: 24. Architecture Reviews
   order: 3

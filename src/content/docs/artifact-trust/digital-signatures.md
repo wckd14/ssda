@@ -1,6 +1,6 @@
 ---
 title: Digital Signatures
-description: "Chapters 8 and 9 kept saying 'signed.' This chapter unpacks what that actually means, because the machinery — hashing, signing, PKI, certificate chain"
+description: "What 'signed' actually means — hashing, signatures, and PKI, plus Sigstore's keyless signing with Fulcio and Rekor, and why a valid signature is never proof of safety."
 sidebar:
   label: 10. Digital Signatures
   order: 4

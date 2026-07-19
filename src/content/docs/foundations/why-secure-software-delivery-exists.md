@@ -1,6 +1,6 @@
 ---
 title: Why Secure Software Delivery Exists
-description: "For twenty years, security teams protected the perimeter: firewalls, VPNs, WAFs, endpoint agents."
+description: "Why perimeter security — firewalls, VPNs, WAFs — no longer suffices, and how SolarWinds, Codecov, Log4Shell, and XZ Utils made securing the software supply chain essential."
 sidebar:
   label: 1. Why Secure Software Delivery Exists
   order: 1

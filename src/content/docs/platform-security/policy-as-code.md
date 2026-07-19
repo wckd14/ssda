@@ -1,6 +1,6 @@
 ---
 title: Policy as Code
-description: "By now, 'the policy' has appeared in almost every chapter — branch protection rules, OIDC trust conditions, admission policies, network policies, auth"
+description: "Treating policy as first-class code: where enforcement belongs, testing both deny and allow cases, staged audit-to-enforce rollout, and guarding the policy plane itself."
 sidebar:
   label: 19. Policy as Code
   order: 2

@@ -1,6 +1,6 @@
 ---
 title: GitOps
-description: "Ask a traditional pipeline: 'what is running in production right now, and who decided that?' The honest answer: 'whatever the last successful deploy j"
+description: "GitOps as an architecture, not just a tool: Git as the reviewable source of truth for production, pull-based reconciliation, drift control, and build/deploy separation of duties."
 sidebar:
   label: 12. GitOps
   order: 1

@@ -1,6 +1,6 @@
 ---
 title: Incident Response
-description: "The entire book assumed breach as a design premise ('blast radius, not invulnerability' — Chapter 2)."
+description: "Supply-chain incident response, where normal IR playbooks break: how identity, evidence, and provenance make detection, blast-radius scoping, and forensics fast."
 sidebar:
   label: 22. Incident Response
   order: 1

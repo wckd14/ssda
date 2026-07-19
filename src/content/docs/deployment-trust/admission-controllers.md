@@ -1,6 +1,6 @@
 ---
 title: Admission Controllers
-description: "Every control so far lives upstream: Git rules, CI hygiene, signing, GitOps review."
+description: "The last unskippable gate: admission controllers at the Kubernetes API server verify signatures and attestations before any pod runs — with Kyverno, Gatekeeper, or OPA."
 sidebar:
   label: 14. Admission Controllers
   order: 3

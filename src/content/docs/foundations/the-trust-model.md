@@ -1,6 +1,6 @@
 ---
 title: The Trust Model
-description: "Every other chapter in this book is a zoom-in on one link of a single chain."
+description: "The chain of custody that unifies the whole handbook: identity, evidence, and independent verification at every boundary, from a developer's commit to a running workload."
 sidebar:
   label: 2. The Trust Model
   order: 2

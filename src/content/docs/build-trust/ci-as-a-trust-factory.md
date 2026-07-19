@@ -1,6 +1,6 @@
 ---
 title: CI as a Trust Factory
-description: "Your CI system is the most attractive target in your company, and here's the uncomfortable syllogism that proves it: 1."
+description: "Your CI system is the highest-value target in the company. How to treat the pipeline as a trust factory: ephemeral runners, isolation, and hardened golden-path builds."
 sidebar:
   label: 5. CI as a Trust Factory
   order: 1

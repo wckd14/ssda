@@ -1,6 +1,6 @@
 ---
 title: Secrets Architecture
-description: "Half of this book has been quietly waging war on one thing: the long-lived secret."
+description: "The architecture of every secret that must still exist: minimizing long-lived credentials, issuing dynamic and short-lived secrets with Vault, and the full secret lifecycle."
 sidebar:
   label: 18. Secrets Architecture
   order: 1

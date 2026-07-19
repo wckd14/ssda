@@ -1,6 +1,6 @@
 ---
 title: Provenance
-description: "Everything so far protects stages: the repo, the build, the registry."
+description: "Provenance is the cryptographic record of who built an artifact, from which source and build — SLSA-style, signed with Sigstore — tying every delivery stage together."
 sidebar:
   label: 8. Provenance
   order: 2

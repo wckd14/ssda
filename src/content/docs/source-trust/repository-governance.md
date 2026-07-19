@@ -1,6 +1,6 @@
 ---
 title: Repository Governance
-description: "Chapter 3 covered the mechanics of protecting a repository."
+description: "The governance behind branch protection: who owns what, who may approve changes, and how CODEOWNERS and clear ownership turn Git rules into real source trust."
 sidebar:
   label: 4. Repository Governance
   order: 2

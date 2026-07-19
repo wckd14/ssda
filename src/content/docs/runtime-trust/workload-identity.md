@@ -1,6 +1,6 @@
 ---
 title: Workload Identity
-description: "The artifact cleared the border. Now it's a running workload — and it immediately needs to talk: to databases, to cloud APIs, to other services."
+description: "Once a workload runs it must prove who it is to reach databases and APIs — verifiable workload identity with SPIFFE, SPIRE, and mTLS instead of shared, stealable secrets."
 sidebar:
   label: 15. Workload Identity
   order: 1

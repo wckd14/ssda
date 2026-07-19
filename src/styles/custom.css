@@ -124,6 +124,23 @@ header.header {
   font-size: clamp(0.85rem, 1.4vw, 1rem);
 }
 
+/* On phones the full title "Secure Software Delivery Architecture" is too long
+   for the header row, so Starlight truncates it with an ellipsis. Let it wrap
+   to two lines and shrink slightly instead — the whole title stays legible,
+   and two lines at this size still clear the 4rem header. */
+@media (max-width: 50rem) {
+  a.site-title {
+    font-size: 0.8125rem;
+    line-height: 1.15;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  .site-title span {
+    white-space: normal;
+  }
+}
+
 /* Hide the divider Starlight renders even when no social links are configured */
 .social-icons:empty::after {
   display: none;

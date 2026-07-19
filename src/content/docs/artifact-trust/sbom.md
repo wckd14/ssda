@@ -1,6 +1,6 @@
 ---
 title: SBOM
-description: "On December 9, 2021, every security team on Earth was asked one question: 'Do we run Log4j?' The organizations that suffered weren't the ones with the"
+description: "The Software Bill of Materials done right: build-time generation, signed attestations, and a queryable inventory that answers 'which workloads run Log4j?' in minutes."
 sidebar:
   label: 9. SBOM
   order: 3

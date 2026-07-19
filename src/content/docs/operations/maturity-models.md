@@ -1,6 +1,6 @@
 ---
 title: Maturity Models
-description: "Reading twenty-two chapters of controls can produce a dangerous reaction: 'we have none of this; we're hopeless; let's do all of it next quarter.' Tha"
+description: "How to sequence a secure-delivery program without a big-bang rewrite: SLSA, NIST SSDF, and CIS Benchmarks as a staged roadmap matched to your actual risk."
 sidebar:
   label: 23. Maturity Models
   order: 2

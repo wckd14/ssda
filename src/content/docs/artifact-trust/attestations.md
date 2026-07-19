@@ -1,6 +1,6 @@
 ---
 title: Attestations
-description: "You now have signatures (Chapter 10) and two things worth signing: provenance (Chapter 8) and SBOMs (Chapter 9)."
+description: "Turn CI green checkmarks — tests, scans, provenance, SBOMs — into signed, portable, machine-verifiable evidence with in-toto and DSSE, then enforce it at admission."
 sidebar:
   label: 11. Attestations
   order: 5

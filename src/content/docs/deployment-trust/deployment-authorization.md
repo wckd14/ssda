@@ -1,6 +1,6 @@
 ---
 title: Deployment Authorization
-description: "Everything so far verifies what is deployed (evidence) and how it flows (GitOps)."
+description: "Who may ship to production, and under what conditions — the human-authority layer that avoids both unauthorized change and rubber-stamp 'authorization theater.'"
 sidebar:
   label: 13. Deployment Authorization
   order: 2

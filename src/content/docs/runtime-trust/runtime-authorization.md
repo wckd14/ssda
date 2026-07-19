@@ -1,6 +1,6 @@
 ---
 title: Runtime Authorization
-description: "Every workload now has a verifiable name."
+description: "What each workload is allowed to do: Zero Trust reduced to its engineering core — default-deny networking, mTLS identity, and service-to-service authorization."
 sidebar:
   label: 16. Runtime Authorization
   order: 2

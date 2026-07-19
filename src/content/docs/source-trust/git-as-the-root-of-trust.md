@@ -1,6 +1,6 @@
 ---
 title: Git as the Root of Trust
-description: "In a GitOps world, Git is not 'where code lives.' Git is the root of trust for your entire company's production environment."
+description: "In a GitOps world, whoever controls Git controls production. Why Git — code, manifests, Terraform, policy — is the root of trust for everything you ship, and how to protect it."
 sidebar:
   label: 3. Git as the Root of Trust
   order: 1

@@ -1,6 +1,6 @@
 ---
 title: The Artifact Lifecycle
-description: "Between 'the build finished' and 'the pod started,' your software lives as an artifact — usually a container image in a registry."
+description: "The dangerous gap between build and run: why a tag is a mutable name and a digest is the real thing — and how digest-pinning and promote-not-rebuild keep artifacts honest."
 sidebar:
   label: 7. The Artifact Lifecycle
   order: 1
