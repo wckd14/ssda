@@ -1,0 +1,32 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+---
+
+<StarlightPage frontmatter={{
+  title: 'Page not found',
+  description: 'This page does not exist — head back to the Secure Software Delivery Architecture handbook.',
+}}>
+
+<p>That URL doesn't point to anything here.</p>
+
+<p>
+  <strong>Secure Software Delivery Architecture</strong> is a 24-chapter handbook
+  on the engineering discipline behind how organizations ship software safely —
+  from a developer's Git commit to a running production workload.
+  It covers identity, provenance, signing, policy enforcement, and everything
+  in between.
+</p>
+
+<p>
+  <a href="/">Go to the handbook →</a>
+</p>
+
+<hr />
+
+<p style="font-size: 0.875rem; color: var(--sl-color-gray-3);">
+  Looking for a specific chapter? Use the search bar (top right) or browse the
+  sidebar. The <a href="/introduction/">introduction</a> explains how the handbook
+  is structured, and the <a href="/glossary/">glossary</a> defines every key term.
+</p>
+
+</StarlightPage>
