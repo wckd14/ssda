@@ -24,7 +24,7 @@ A city, not a castle. Castle security (perimeter thinking): one hard wall, soft 
 
 Authorization at three layers — defense in depth, each catching what the previous can't:
 
-**Layer 1 — Network policy (L3/L4: who can *reach* whom).** Kubernetes NetworkPolicies (enforced by the CNI: Cilium, Calico) constrain connectivity by pod/namespace selectors and ports. The architectural move is **default-deny**: an empty-podSelector policy denying all ingress (and, harder but higher-value, egress) per namespace, then explicit allows:
+**Layer 1 — Network policy (L3/L4: who can *reach* whom).** Kubernetes NetworkPolicies (enforced by the CNI: [Cilium](https://cilium.io/), [Calico](https://www.tigera.io/project-calico/)) constrain connectivity by pod/namespace selectors and ports. The architectural move is **default-deny**: an empty-podSelector policy denying all ingress (and, harder but higher-value, egress) per namespace, then explicit allows:
 
 ```yaml
 # payments namespace: deny all ingress by default...
@@ -100,7 +100,7 @@ Attacking the authorization layer itself: policy is Kubernetes objects → whoev
 
 ## Implementation examples
 
-Cilium: identity-aware policy (CiliumNetworkPolicy with L7/FQDN egress rules — allowlist by DNS name, not brittle IPs), Hubble for observing flows before enforcing; Istio: PeerAuthentication STRICT + per-service AuthorizationPolicies, dry-run annotations for staged rollout; Linkerd: default-deny + Server/ServerAuthorization CRDs; OPA/Envoy ext_authz for L7 decisions with end-user context.
+Cilium: identity-aware policy (CiliumNetworkPolicy with L7/FQDN egress rules — allowlist by DNS name, not brittle IPs), [Hubble](https://github.com/cilium/hubble) for observing flows before enforcing; Istio: PeerAuthentication STRICT + per-service AuthorizationPolicies, dry-run annotations for staged rollout; [Linkerd](https://linkerd.io/): default-deny + Server/ServerAuthorization CRDs; OPA/[Envoy](https://www.envoyproxy.io/) `ext_authz` for L7 decisions with end-user context.
 
 :::tip[Key Takeaways]
 

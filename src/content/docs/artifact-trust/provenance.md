@@ -26,7 +26,7 @@ Provenance is an artifact's **birth certificate**: an authoritative document, is
 
 ## Architecture
 
-**What provenance contains.** The standard format is **SLSA Provenance** (an in-toto attestation). Conceptually:
+**What provenance contains.** The standard format is **[SLSA Provenance](https://slsa.dev/spec/v1/provenance)** (an [in-toto](https://in-toto.io/) attestation). Conceptually:
 
 ```json
 {
@@ -52,7 +52,7 @@ Provenance is an artifact's **birth certificate**: an authoritative document, is
 
 Subject (artifact digest) + materials (source commit, dependencies) + builder identity + invocation details — the complete birth record.
 
-**How provenance is produced.** The critical architectural rule: **the platform, not the pipeline, generates provenance.** If a build step in your YAML writes the provenance JSON, then anyone who can edit the YAML (or compromise the build) writes whatever provenance they like. SLSA formalizes this as build levels: at L3, provenance generation is *unforgeable by the build's own steps* — it runs in a separate trust domain (e.g., GitHub's reusable `slsa-github-generator` workflows, or GitHub artifact attestations, where the signing identity is provisioned by the platform and unavailable to user-defined steps).
+**How provenance is produced.** The critical architectural rule: **the platform, not the pipeline, generates provenance.** If a build step in your YAML writes the provenance JSON, then anyone who can edit the YAML (or compromise the build) writes whatever provenance they like. SLSA formalizes this as [build levels](https://slsa.dev/spec/v1/levels): at L3, provenance generation is *unforgeable by the build's own steps* — it runs in a separate trust domain (e.g., GitHub's reusable [`slsa-github-generator`](https://github.com/slsa-framework/slsa-github-generator) workflows, or [GitHub artifact attestations](https://docs.github.com/en/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds), where the signing identity is provisioned by the platform and unavailable to user-defined steps).
 
 **How provenance is signed and verified.** The provenance document is wrapped in a DSSE envelope and signed — typically via Sigstore keyless flow: the builder authenticates via its OIDC identity (Chapter 6!), Fulcio issues a short-lived certificate binding the signature to that identity, and the signature is logged in Rekor's transparency log (Chapter 10 covers this machinery). Verification then checks: (1) signature validity, (2) **signer identity matches the expected builder** — e.g., certificate identity is *your* release workflow in *your* repo, not merely "some valid Sigstore signature", (3) subject digest matches the artifact you're about to run, (4) source claims meet policy (repo is yours, ref is `main`).
 
@@ -65,7 +65,7 @@ Subject (artifact digest) + materials (source commit, dependencies) + builder id
 3. **Compromise the build steps and emit fake provenance.** *Fails at SLSA L3* — provenance generation is outside the build steps' reach. At L1/L2 (pipeline-generated provenance), this attack *succeeds* — which is exactly the difference the levels measure.
 4. **Compromise the build platform itself.** The honest residual risk. The platform is the trusted issuer; its compromise defeats provenance from within. Mitigations live in different trust domains: transparency logs make every issued signature *publicly auditable* (mass forgery is loud), reproducible builds allow independent rebuilding-and-comparison, and monitoring Rekor for signatures claiming your identity detects misuse. Note the pattern again: the answer to "X is compromised" is never inside X.
 
-**Real-world grounding.** SolarWinds is the canonical "this is what provenance is for" case: SUNBURST-tainted builds would carry provenance from the *real* builder — but a reproducibility check would fail, and more importantly, the entire post-incident question "which artifacts came from the compromised build system, built between which dates?" becomes a *query over provenance* instead of a months-long forensic dig. npm/PyPI ecosystems now publish provenance for packages (npm `--provenance`, PyPI Trusted Publishers) applying the identical architecture to open-source supply chains.
+**Real-world grounding.** [SolarWinds](https://en.wikipedia.org/wiki/2020_United_States_federal_government_data_breach) is the canonical "this is what provenance is for" case: SUNBURST-tainted builds would carry provenance from the *real* builder — but a reproducibility check would fail, and more importantly, the entire post-incident question "which artifacts came from the compromised build system, built between which dates?" becomes a *query over provenance* instead of a months-long forensic dig. npm/PyPI ecosystems now publish provenance for packages ([npm `--provenance`](https://docs.npmjs.com/generating-provenance-statements), [PyPI Trusted Publishers](https://docs.pypi.org/trusted-publishers/)) applying the identical architecture to open-source supply chains.
 
 ## Common mistakes
 
@@ -85,7 +85,7 @@ Subject (artifact digest) + materials (source commit, dependencies) + builder id
 ## Implementation examples
 
 - **GitHub**: `attest-build-provenance` action / artifact attestations; `gh attestation verify`; or `slsa-github-generator` for SLSA L3.
-- **Verification**: `cosign verify-attestation --type slsaprovenance --certificate-identity <exact workflow identity> --certificate-oidc-issuer https://token.actions.githubusercontent.com <image@digest>`; Kyverno `verifyImages` with attestation conditions for in-cluster enforcement; `slsa-verifier` for CLI verification against source expectations.
+- **Verification**: `cosign verify-attestation --type slsaprovenance --certificate-identity <exact workflow identity> --certificate-oidc-issuer https://token.actions.githubusercontent.com <image@digest>`; Kyverno `verifyImages` with attestation conditions for in-cluster enforcement; [`slsa-verifier`](https://github.com/slsa-framework/slsa-verifier) for CLI verification against source expectations.
 - **Jenkins**: harder (no platform-issued identity) — pattern: isolated signing service that Jenkins jobs *request* attestations from, with the service validating job context before signing; honest assessment: reaching L3-equivalent on Jenkins requires building the separate trust domain yourself.
 
 :::tip[Key Takeaways]

@@ -76,7 +76,7 @@ Five incidents, each with the property that makes it different and the evidence 
 
 ## Implementation examples
 
-Rekor monitoring (rekor-monitor, or periodic `rekor-cli search` for your identities); provenance queries via your attestation store / GUAC ("artifacts by builder+time"); Dependency-Track/GUAC for the SBOM affected-workloads join; admission denylist policies (Kyverno/Gatekeeper image-blocklist) for instant containment; ArgoCD/Flux revert to known-good commit; Falco/runtime logs for "did it execute" forensics; documented, tested runbooks per incident class in the platform repo.
+Rekor monitoring ([rekor-monitor](https://github.com/sigstore/rekor-monitor), or periodic `rekor-cli search` for your identities); provenance queries via your attestation store / GUAC ("artifacts by builder+time"); Dependency-Track/GUAC for the SBOM affected-workloads join; admission denylist policies (Kyverno/Gatekeeper image-blocklist) for instant containment; ArgoCD/Flux revert to known-good commit; Falco/runtime logs for "did it execute" forensics; documented, tested runbooks per incident class in the platform repo.
 
 :::tip[Key Takeaways]
 

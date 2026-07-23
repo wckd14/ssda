@@ -10,7 +10,7 @@ sidebar:
 
 ## Why this exists
 
-On December 9, 2021, every security team on Earth was asked one question: **"Do we run Log4j?"** The organizations that suffered weren't the ones with the most Log4j — they were the ones who *couldn't answer the question*. Vulnerable-and-knowing beats vulnerable-and-blind by weeks of exposure. The Software Bill of Materials exists to make that question answerable in minutes, by query, forever.
+On December 9, 2021, when [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) ("Log4Shell") dropped, every security team on Earth was asked one question: **"Do we run Log4j?"** The organizations that suffered weren't the ones with the most Log4j — they were the ones who *couldn't answer the question*. Vulnerable-and-knowing beats vulnerable-and-blind by weeks of exposure. The Software Bill of Materials exists to make that question answerable in minutes, by query, forever.
 
 ## Mental model
 
@@ -23,21 +23,21 @@ An SBOM is the **ingredients label** on packaged food. It doesn't make the food 
 | Layer | Contents | Best produced | Visibility |
 |---|---|---|---|
 | Application SBOM | Direct + transitive language deps (from lockfiles/build graph) | At build, from the build tool | Sees exact resolved versions; misses OS packages |
-| Container SBOM | OS packages (apk/deb/rpm) + app layer + stray binaries | At image assembly (Syft, Trivy) | Sees the full filesystem; can miss vendored/static-linked components |
+| Container SBOM | OS packages (apk/deb/rpm) + app layer + stray binaries | At image assembly ([Syft](https://github.com/anchore/syft), [Trivy](https://trivy.dev/)) | Sees the full filesystem; can miss vendored/static-linked components |
 | Operational SBOM | What's actually *deployed where, now* | Continuously, from cluster state | The one that answers the incident question |
 
 The dirty secret of the field: **build-time SBOMs from the dependency graph are far more accurate than after-the-fact image scans** (which infer packages from filesystem heuristics and miss shaded jars, static binaries, vendored code — Log4Shell's worst cases were *shaded* Log4j copies invisible to naive scanners). Generate at build, from the resolver's own graph, then *attach the SBOM to the image digest as a signed attestation* (Chapter 11) so inventory travels with the artifact.
 
-**The operational layer is the payoff.** A warehouse of per-artifact SBOMs is necessary but not sufficient; the incident question is a *join*: `SBOM data ⋈ what's running`. Mature architecture: SBOMs indexed in a queryable store (Dependency-Track, GUAC, or a database), continuously reconciled against cluster inventory (which digests run in which namespaces), so "show me every production workload containing log4j-core < 2.17.1" is a query with an SLA, not a war room.
+**The operational layer is the payoff.** A warehouse of per-artifact SBOMs is necessary but not sufficient; the incident question is a *join*: `SBOM data ⋈ what's running`. Mature architecture: SBOMs indexed in a queryable store ([Dependency-Track](https://dependencytrack.org/), [GUAC](https://guac.sh/), or a database), continuously reconciled against cluster inventory (which digests run in which namespaces), so "show me every production workload containing log4j-core < 2.17.1" is a query with an SLA, not a war room.
 
-**Formats.** CycloneDX and SPDX; both fine, pick per ecosystem/regulatory pull (CycloneDX stronger in appsec tooling; SPDX in licensing/compliance lineage). Format wars are a distraction — *accuracy of generation and queryability of storage* determine value.
+**Formats.** [CycloneDX](https://cyclonedx.org/) and [SPDX](https://spdx.dev/); both fine, pick per ecosystem/regulatory pull (CycloneDX stronger in appsec tooling; SPDX in licensing/compliance lineage). Format wars are a distraction — *accuracy of generation and queryability of storage* determine value.
 
 **Dependency graph, not dependency list.** Knowing `libX 1.2` is present is level one. Knowing *why* — which direct dependency pulled it, which module, since when — is what makes remediation tractable ("bump A" vs "we vendored it in 2019 and no one knows why").
 
 ## Threat model & compromise scenarios
 
 - **The next Log4Shell** (the routine case): a critical CVE drops in a common component. SBOM-mature org: query, ranked list of affected deployed workloads, patch by exposure. SBOM-blind org: grep-and-pray across hundreds of repos, while attackers mass-scan the internet — exploitation of major CVEs now begins within *hours* of disclosure.
-- **SBOM as attacker's map**: an SBOM is precise vulnerability targeting information — treat SBOM stores as sensitive systems (authn, authz, audit). Sharing SBOMs with customers is increasingly demanded (US EO 14028 pushed federal procurement this way); share deliberately, not by leaving the bucket public.
+- **SBOM as attacker's map**: an SBOM is precise vulnerability targeting information — treat SBOM stores as sensitive systems (authn, authz, audit). Sharing SBOMs with customers is increasingly demanded ([US EO 14028](https://www.presidency.ucsb.edu/documents/executive-order-14028-improving-the-nations-cybersecurity) pushed federal procurement this way); share deliberately, not by leaving the bucket public.
 - **SBOM forgery / omission**: a compromised build emits a clean-looking SBOM omitting the malicious addition. This is why SBOMs are *signed attestations from the trusted builder* (Chapters 8, 11) — inventory inherits the build's trust properties, and why independent after-the-fact scanning still has a role as a cross-check.
 
 ## Common mistakes

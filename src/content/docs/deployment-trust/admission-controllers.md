@@ -33,10 +33,10 @@ kubectl / reconciler / operator / attacker-with-kubeconfig
 Everything that becomes cluster state passes here. That's the property no pipeline stage has.
 
 **The policy engines.**
-- **Kyverno**: policies *are* Kubernetes resources (YAML, no new language), with first-class `verifyImages` — signature and attestation verification with identity and predicate conditions built in. The pragmatic default for the supply-chain use case.
-- **OPA Gatekeeper**: Rego-based, maximally expressive, ConstraintTemplates for reusable parameterized policy; the choice when policy logic is genuinely complex or shared beyond Kubernetes (OPA is a general-purpose decision engine — Chapter 19).
-- **Sigstore policy-controller**: purpose-built ClusterImagePolicy for signature/attestation verification.
-- **ValidatingAdmissionPolicy (CEL, in-tree)**: no webhook, no availability trade for simple validations — the direction the ecosystem is moving for basic rules; external engines remain necessary for image verification (which requires registry I/O and crypto).
+- **[Kyverno](https://kyverno.io/)**: policies *are* Kubernetes resources (YAML, no new language), with first-class `verifyImages` — signature and attestation verification with identity and predicate conditions built in. The pragmatic default for the supply-chain use case.
+- **[OPA Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/)**: Rego-based, maximally expressive, ConstraintTemplates for reusable parameterized policy; the choice when policy logic is genuinely complex or shared beyond Kubernetes ([OPA](https://www.openpolicyagent.org/) is a general-purpose decision engine — Chapter 19).
+- **[Sigstore policy-controller](https://docs.sigstore.dev/policy-controller/overview/)**: purpose-built ClusterImagePolicy for signature/attestation verification.
+- **[ValidatingAdmissionPolicy](https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/) (CEL, in-tree)**: no webhook, no availability trade for simple validations — the direction the ecosystem is moving for basic rules; external engines remain necessary for image verification (which requires registry I/O and crypto).
 
 **The two policy families that matter here:**
 

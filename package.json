@@ -11,6 +11,7 @@
     "astro": "astro",
     "assets": "node scripts/generate-assets.mjs && node scripts/generate-og-pages.mjs",
     "llms": "node scripts/generate-llms.mjs",
+    "check-links": "node scripts/check-links.mjs",
     "generate-types": "wrangler types"
   },
   "author": "wckd14",

@@ -12,7 +12,7 @@ sidebar:
 
 Ask a traditional pipeline: "what is running in production right now, and who decided that?" The honest answer: "whatever the last successful deploy job pushed, decided by whoever ran it, minus whatever anyone has `kubectl edit`-ed since." Production state is the accumulated residue of imperative actions — unrecorded, unreviewable, unreconstructable. GitOps exists to replace that residue with a single, reviewable, versioned statement of truth.
 
-This chapter is deliberately not about ArgoCD. ArgoCD is one implementation. GitOps is an *architecture* with four load-bearing ideas, each answering a question.
+This chapter is deliberately not about [ArgoCD](https://argo-cd.readthedocs.io/). ArgoCD is one implementation. GitOps is an *architecture* with four load-bearing ideas, each answering a question.
 
 ## Mental model
 
@@ -86,7 +86,7 @@ Design decisions that matter: separate deploy repo with *different* (usually str
 
 ## Implementation examples
 
-Argo CD: Projects for tenant isolation, AppProject-scoped RBAC, sync windows for change freezes, resource hooks for ordering; Flux: Kustomization/HelmRelease CRs, image automation writing digests, multi-tenancy via namespaced controllers; both: SSO + audit, notifications on drift events, digest-pinning via image-update automation rather than humans copying SHAs.
+Argo CD: Projects for tenant isolation, AppProject-scoped RBAC, sync windows for change freezes, resource hooks for ordering; [Flux](https://fluxcd.io/): Kustomization/HelmRelease CRs, image automation writing digests, multi-tenancy via namespaced controllers; both: SSO + audit, notifications on drift events, digest-pinning via image-update automation rather than humans copying SHAs.
 
 :::tip[Key Takeaways]
 

@@ -22,7 +22,7 @@ Deployment authorization is a **launch-control system**: the missile only fires 
 
 - **Risk-tiered approvals.** Not all changes are equal; treating them equally guarantees theater. A digest bump that passed staging: one owner approval, auto-mergeable. A change touching the payment service's config or infrastructure: stricter owners, maybe two teams. Schema migrations: their own path. Encode tiers in CODEOWNERS + branch rules + environment protection so the *heavyweight process spends only where risk lives*.
 - **Separation of duties, precisely defined.** The useful rule isn't "another human clicked approve," it's: **no single identity can author a change and independently cause it to run in production.** Author ≠ sole approver (branch protection), builder ≠ deployer (Chapter 12's split), and — often forgotten — *the person who approves the deploy repo PR shouldn't be able to also rewrite the policy that gates it* (Chapter 19).
-- **Environment protection as machine-checked authority.** GitHub environments / GitLab protected environments bind deploy identities (Chapter 6's OIDC claims include `environment`) to required reviewers, wait timers, and branch restrictions — turning "prod deploys need release-team approval" from a norm into a credential-issuance condition.
+- **Environment protection as machine-checked authority.** [GitHub environments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment) / GitLab protected environments bind deploy identities (Chapter 6's OIDC claims include `environment`) to required reviewers, wait timers, and branch restrictions — turning "prod deploys need release-team approval" from a norm into a credential-issuance condition.
 
 **Emergency deployments — the section that decides everything.** Every platform has a 3am. If your authorized path takes 45 minutes of approvals and prod is down, engineers *will* route around it — and the workaround becomes the everyday path within a quarter. Design break-glass deliberately:
 
@@ -54,7 +54,7 @@ Deployment authorization is a **launch-control system**: the missile only fires 
 
 ## Implementation examples
 
-GitHub: environment protection rules (required reviewers, wait timers, deployment branch policies) + CODEOWNERS tiers + merge queue; GitLab: protected environments + approval rules; ArgoCD sync windows (freeze periods) + manual-sync-only for regulated apps; Kyverno/OPA policy exceptions with expiry (`spec.validUntil`) as machine-managed break-glass with automatic re-lock.
+GitHub: environment protection rules (required reviewers, wait timers, deployment branch policies) + CODEOWNERS tiers + merge queue; GitLab: protected environments + approval rules; [ArgoCD sync windows](https://argo-cd.readthedocs.io/en/stable/user-guide/sync_windows/) (freeze periods) + manual-sync-only for regulated apps; Kyverno/OPA policy exceptions with expiry (`spec.validUntil`) as machine-managed break-glass with automatic re-lock.
 
 :::tip[Key Takeaways]
 

@@ -14,17 +14,17 @@ For twenty years, security teams protected the *perimeter*: firewalls, VPNs, WAF
 
 That assumption died in a series of very public funerals:
 
-**SolarWinds (2020).** Attackers didn't hack SolarWinds' customers. They hacked SolarWinds' *build system*. Malicious code (SUNBURST) was injected during compilation — after code review, before signing. The build output was signed with SolarWinds' legitimate certificate and shipped to ~18,000 customers, including US federal agencies. Every perimeter defense on Earth waved it through, because it arrived as a *trusted, signed update from a trusted vendor*.
+**[SolarWinds (2020)](https://en.wikipedia.org/wiki/2020_United_States_federal_government_data_breach).** Attackers didn't hack SolarWinds' customers. They hacked SolarWinds' *build system*. Malicious code (SUNBURST) was injected during compilation — after code review, before signing. The build output was signed with SolarWinds' legitimate certificate and shipped to ~18,000 customers, including US federal agencies. Every perimeter defense on Earth waved it through, because it arrived as a *trusted, signed update from a trusted vendor*.
 
 > The lesson: **a signature proves who signed, not what was reviewed.** If the thing between review and signing (the build) is compromised, signing launders the attack.
 
-**Codecov (2021).** A single leaked credential in a Docker image let attackers modify Codecov's Bash Uploader script — a script thousands of CI pipelines `curl | bash`-ed on every build. For months, the modified script exfiltrated environment variables from customer CI systems: cloud keys, tokens, signing secrets. The blast radius wasn't Codecov; it was *everyone whose pipeline trusted Codecov*.
+**[Codecov (2021)](https://about.codecov.io/apr-2021-post-mortem/).** A single leaked credential in a Docker image let attackers modify Codecov's Bash Uploader script — a script thousands of CI pipelines `curl | bash`-ed on every build. For months, the modified script exfiltrated environment variables from customer CI systems: cloud keys, tokens, signing secrets. The blast radius wasn't Codecov; it was *everyone whose pipeline trusted Codecov*.
 
 > The lesson: **your CI pipeline's trust boundary includes every script it downloads.** Dependencies aren't just libraries — they're anything that executes.
 
-**Log4Shell (2021).** Not an attack on the supply chain — a demonstration that nobody knew *what was in their supply chain*. When CVE-2021-44228 dropped, the hard part wasn't patching Log4j. It was answering "which of our 4,000 services contain Log4j, at which version, including transitively, including shaded jars?" Most organizations took *weeks* to answer. That gap is the entire justification for SBOMs (Chapter 9).
+**Log4Shell (2021).** Not an attack on the supply chain — a demonstration that nobody knew *what was in their supply chain*. When [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) dropped, the hard part wasn't patching Log4j. It was answering "which of our 4,000 services contain Log4j, at which version, including transitively, including shaded jars?" Most organizations took *weeks* to answer. That gap is the entire justification for SBOMs (Chapter 9).
 
-**XZ Utils (2024).** The most patient attack ever documented. A persona ("Jia Tan") spent *two years* building trust as an open-source maintainer of a compression library, then inserted a backdoor targeting SSH — hidden in build scripts and binary test files, invisible in the source tree. It was caught by luck: a Microsoft engineer noticed SSH logins were 500ms slower. 
+**[XZ Utils (2024)](https://www.openwall.com/lists/oss-security/2024/03/29/4).** The most patient attack ever documented. A persona ("Jia Tan") spent *two years* building trust as an open-source maintainer of a compression library, then inserted a backdoor targeting SSH — hidden in build scripts and binary test files, invisible in the source tree. It was caught by luck: a Microsoft engineer noticed SSH logins were 500ms slower. 
 
 > The lesson: **the trust model of open source is a maintainer's reputation, and reputation can be manufactured.** Also: attacks increasingly hide in the *build*, not the source, because everyone reviews source and nobody reviews builds.
 
