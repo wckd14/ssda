@@ -24,7 +24,7 @@ Three primitives, three one-line intuitions:
 
 **The classic approach and its operational disease.** Traditional artifact signing: generate a long-lived keypair, guard the private key, distribute the public key to verifiers. The problems are not cryptographic but *operational*: keys leak (they live in CI secret stores — the exact place Chapter 6 taught us attackers harvest), rotation is a distributed-systems nightmare (every verifier must learn the new key), revocation is worse (how do you tell every cluster on Earth "key K is bad as of Tuesday, distrust signatures after Tuesday — but wait, signatures aren't timestamped trustworthily...").
 
-**Sigstore: keyless signing.** The modern answer, and the reason this book's chapters keep interlocking:
+**[Sigstore](https://docs.sigstore.dev/about/overview/): keyless signing.** The modern answer, and the reason this book's chapters keep interlocking:
 
 ```
 Builder (has OIDC identity — Chapter 6)
@@ -43,9 +43,9 @@ Rekor (transparency log)
      "identity I signed digest D at time T"
 ```
 
-The ephemeral key is discarded after signing — **there is no long-lived key to steal, rotate, or revoke**. Verification checks: signature validity, certificate chains to Fulcio's root, certificate's *identity* matches policy (this is the actual control — "signed by our release workflow", not "signed by someone"), and inclusion in Rekor proves the signature existed at a logged time (solving the timestamp problem that made classical revocation intractable).
+The ephemeral key is discarded after signing — **there is no long-lived key to steal, rotate, or revoke**. Verification checks: signature validity, certificate chains to [Fulcio's](https://docs.sigstore.dev/certificate_authority/overview/) root, certificate's *identity* matches policy (this is the actual control — "signed by our release workflow", not "signed by someone"), and inclusion in [Rekor](https://docs.sigstore.dev/logging/overview/) proves the signature existed at a logged time (solving the timestamp problem that made classical revocation intractable).
 
-**Transparency logs deserve emphasis.** Rekor is the same idea as Certificate Transparency, which caught rogue CAs in the web PKI: every signature ever issued is publicly visible and append-only. You cannot *prevent* a compromised identity from signing — but you can *detect* it: monitor the log for signatures claiming your identities that you didn't make. It converts key/identity compromise from silent to auditable. Loud beats invisible; this is blast-radius thinking applied to cryptography.
+**Transparency logs deserve emphasis.** Rekor is the same idea as [Certificate Transparency](https://certificate.transparency.dev/), which caught rogue CAs in the web PKI: every signature ever issued is publicly visible and append-only. You cannot *prevent* a compromised identity from signing — but you can *detect* it: monitor the log for signatures claiming your identities that you didn't make. It converts key/identity compromise from silent to auditable. Loud beats invisible; this is blast-radius thinking applied to cryptography.
 
 **Why signatures aren't enough.** The most important section of this chapter. A signature proves: *identity I vouched for digest D*. It does **not** prove:
 - the content is safe (SolarWinds' malware was *beautifully signed*)
@@ -79,7 +79,7 @@ A signature is a *carrier of trust*, not a *source* of it. What should be signed
 
 ## Implementation examples
 
-`cosign sign <image@digest>` (keyless in CI with OIDC); `cosign sign --key awskms:///alias/release-key` for KMS-backed classical; `cosign verify --certificate-identity=https://github.com/acme/payments/.github/workflows/release.yml@refs/heads/main --certificate-oidc-issuer=https://token.actions.githubusercontent.com`; Kyverno/Gatekeeper for cluster-side enforcement; Rekor search/monitoring (`rekor-cli search --email/--sha`) for identity-abuse detection.
+[`cosign sign <image@digest>`](https://docs.sigstore.dev/cosign/signing/overview/) (keyless in CI with OIDC); `cosign sign --key awskms:///alias/release-key` for KMS-backed classical; `cosign verify --certificate-identity=https://github.com/acme/payments/.github/workflows/release.yml@refs/heads/main --certificate-oidc-issuer=https://token.actions.githubusercontent.com`; Kyverno/Gatekeeper for cluster-side enforcement; Rekor search/monitoring (`rekor-cli search --email/--sha`) for identity-abuse detection.
 
 :::tip[Key Takeaways]
 

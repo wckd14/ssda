@@ -40,7 +40,7 @@ A static credential is a **house key**: whoever holds it gets in, forever, no qu
                           (AWS STS creds, ~15–60 min)
 ```
 
-No secret is stored anywhere. The build *proves who it is* per-run, and the relying party decides what that identity may do. AWS calls the exchange `AssumeRoleWithWebIdentity` via STS; GCP calls it Workload Identity Federation; Vault has a JWT/OIDC auth method; Sigstore's Fulcio issues signing certificates against the same tokens (Chapter 10).
+No secret is stored anywhere. The build *proves who it is* per-run, and the relying party decides what that identity may do. AWS calls the exchange [`AssumeRoleWithWebIdentity`](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html) via STS; GCP calls it [Workload Identity Federation](https://docs.cloud.google.com/iam/docs/workload-identity-federation); Vault has a [JWT/OIDC auth method](https://developer.hashicorp.com/vault/docs/auth/jwt); [Sigstore's Fulcio](https://docs.sigstore.dev/certificate_authority/overview/) issues signing certificates against the same tokens (Chapter 10).
 
 **Claims are the security boundary.** The token's claims — `repository`, `ref`, `workflow`, `environment`, `actor` — are what your trust policy matches on. The infamous foot-gun: an AWS role trust policy matching only `repo:acme/*` lets *any workflow in any branch of any repo in the org* — including a PR branch created by a compromised account — assume the production deploy role. Correct policies pin `repo` **and** `ref` (and, on GitHub, prefer the `environment` claim, since environments carry their own protection rules).
 

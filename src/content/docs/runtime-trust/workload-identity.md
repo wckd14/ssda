@@ -20,15 +20,15 @@ Workload identity is an **employee badge issued by the building, not a key copie
 
 ## Architecture
 
-**SPIFFE: the universal grammar.** SPIFFE (Secure Production Identity Framework For Everyone) standardizes the idea:
+**SPIFFE: the universal grammar.** [SPIFFE](https://spiffe.io/) (Secure Production Identity Framework For Everyone) standardizes the idea:
 
 - **SPIFFE ID**: a structured name — `spiffe://acme.prod/ns/payments/sa/payments-api` — identifying a workload within a *trust domain* (`acme.prod`).
 - **SVID**: the badge itself — an X.509 certificate (or JWT) containing the SPIFFE ID, short-lived, automatically rotated.
 - **Workload API**: how a pod gets its SVID *without presenting any prior secret* — the local agent verifies who's asking via **attestation** (same word as Chapter 11, same meaning: verified claims — here, the agent checks kernel-level facts: this process belongs to pod P, with service account S, in namespace N, on a node whose identity was itself attested to the server).
 
-**SPIRE** is the production implementation: a server (signing authority for the trust domain, holds registration entries mapping selectors→SPIFFE IDs) plus a per-node agent (attests nodes to the server, attests workloads locally, serves the Workload API). The elegant part is the **attestation chain**: server verifies node (via cloud instance identity documents, TPM, etc.), node agent verifies workload (via kubelet/kernel introspection), so the workload's badge is rooted in *infrastructure-verified facts*, not in any secret the workload stored. Bootstrapping identity without pre-placed secrets — this solves the "bottom turtle" problem every secrets system otherwise hits (to fetch a secret you need a credential; to get that credential you need...).
+**[SPIRE](https://spiffe.io/docs/latest/spire-about/)** is the production implementation: a server (signing authority for the trust domain, holds registration entries mapping selectors→SPIFFE IDs) plus a per-node agent (attests nodes to the server, attests workloads locally, serves the Workload API). The elegant part is the **attestation chain**: server verifies node (via cloud instance identity documents, TPM, etc.), node agent verifies workload (via kubelet/kernel introspection), so the workload's badge is rooted in *infrastructure-verified facts*, not in any secret the workload stored. Bootstrapping identity without pre-placed secrets — this solves the "bottom turtle" problem every secrets system otherwise hits (to fetch a secret you need a credential; to get that credential you need...).
 
-**IRSA and cloud-native equivalents.** AWS IRSA (IAM Roles for Service Accounts) is the same pattern with Kubernetes-native parts: the cluster's OIDC issuer signs a projected ServiceAccount token naming the pod's SA; AWS STS validates it against the cluster's issuer and exchanges it for role credentials — Chapter 6's trust triangle, verbatim, with a pod in place of a CI job:
+**IRSA and cloud-native equivalents.** [AWS IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) (IAM Roles for Service Accounts) is the same pattern with Kubernetes-native parts: the cluster's OIDC issuer signs a projected ServiceAccount token naming the pod's SA; AWS STS validates it against the cluster's issuer and exchanges it for role credentials — Chapter 6's trust triangle, verbatim, with a pod in place of a CI job:
 
 ```
 Pod (SA: payments-api) ──projected OIDC token──► AWS STS
@@ -39,9 +39,9 @@ Pod (SA: payments-api) ──projected OIDC token──► AWS STS
                                      short-lived role credentials (≈1h)
 ```
 
-(EKS Pod Identity is the successor plumbing; GCP Workload Identity Federation and Azure Workload Identity are the same architecture with different nouns.) The claims-matching lesson from Chapter 6 recurs identically: a trust policy matching `system:serviceaccount:*:*` grants the role to *every pod in the cluster*.
+([EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html) is the successor plumbing; [GCP Workload Identity Federation](https://docs.cloud.google.com/iam/docs/workload-identity-federation) and [Azure Workload Identity](https://azure.github.io/azure-workload-identity/docs/) are the same architecture with different nouns.) The claims-matching lesson from Chapter 6 recurs identically: a trust policy matching `system:serviceaccount:*:*` grants the role to *every pod in the cluster*.
 
-**mTLS: identity for service-to-service.** SVIDs being X.509 certificates means service-to-service authentication falls out naturally: mutual TLS where *both* sides present SVIDs, each verifying the peer's SPIFFE ID against policy. Service meshes (Istio, Linkerd) automate exactly this — sidecar/ambient proxies obtain workload certs and enforce mTLS transparently; Istio's identity system is SPIFFE-conformant. The mesh is an *implementation* of workload identity + encrypted transport, not a separate concept.
+**mTLS: identity for service-to-service.** SVIDs being X.509 certificates means service-to-service authentication falls out naturally: mutual TLS where *both* sides present SVIDs, each verifying the peer's SPIFFE ID against policy. Service meshes ([Istio](https://istio.io/), [Linkerd](https://linkerd.io/)) automate exactly this — sidecar/ambient proxies obtain workload certs and enforce mTLS transparently; Istio's identity system is SPIFFE-conformant. The mesh is an *implementation* of workload identity + encrypted transport, not a separate concept.
 
 **Federation.** Two trust domains (two clusters, two companies, cloud↔on-prem) can trust each other's identities by exchanging *trust bundles* (root keys) — `spiffe://acme.prod/...` becomes verifiable inside `partner.prod` without shared secrets. This is how identity survives the multi-cluster, multi-cloud reality that killed network-perimeter thinking.
 
@@ -70,7 +70,7 @@ Pod (SA: payments-api) ──projected OIDC token──► AWS STS
 
 ## Implementation examples
 
-EKS: IRSA (`eks.amazonaws.com/role-arn` SA annotation) or Pod Identity associations; SPIRE on Kubernetes with `k8s_psat` node attestation + workload registrar; Istio (SPIFFE-conformant certs, PeerAuthentication STRICT); cert-manager csi-driver-spiffe for SVID mounting; Vault Kubernetes auth (SA-token-based login → scoped, short-TTL secrets) as the bridge pattern for systems that still require secrets.
+EKS: IRSA (`eks.amazonaws.com/role-arn` SA annotation) or Pod Identity associations; SPIRE on Kubernetes with `k8s_psat` node attestation + workload registrar; Istio (SPIFFE-conformant certs, PeerAuthentication STRICT); [cert-manager csi-driver-spiffe](https://cert-manager.io/docs/usage/csi-driver-spiffe/) for SVID mounting; [Vault Kubernetes auth](https://developer.hashicorp.com/vault/docs/auth/kubernetes) (SA-token-based login → scoped, short-TTL secrets) as the bridge pattern for systems that still require secrets.
 
 :::tip[Key Takeaways]
 

@@ -37,7 +37,7 @@ A mature repository architecture layers these controls:
 
 Why? Because a change to `.github/workflows/build.yml` is a change to *the machine that produces your production artifacts*. An app developer approving their teammate's workflow change is CI's equivalent of letting tenants rekey the building's locks.
 
-**Signed commits and protected tags.** Commit signing (GPG, SSH, or gitsign with Sigstore) binds a commit to an identity, closing the "git config user.email spoofing" hole — by default, Git lets anyone claim to be anyone. Protected tags matter because releases are often cut from tags: if anyone can move `v2.1.0`, anyone can change what "version 2.1.0" means.
+**Signed commits and protected tags.** Commit signing (GPG, SSH, or [gitsign](https://github.com/sigstore/gitsign) with [Sigstore](https://docs.sigstore.dev/about/overview/)) binds a commit to an identity, closing the "git config user.email spoofing" hole — by default, Git lets anyone claim to be anyone. Protected tags matter because releases are often cut from tags: if anyone can move `v2.1.0`, anyone can change what "version 2.1.0" means.
 
 **Merge queues.** Beyond throughput, a merge queue guarantees that what lands on `main` was tested *in the exact state it will exist on main* — closing the gap where two individually-green PRs are jointly broken (or jointly malicious).
 

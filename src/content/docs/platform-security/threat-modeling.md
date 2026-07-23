@@ -21,7 +21,7 @@ Threat modeling is answering four questions, in order, honestly:
 3. **What are we going to do about it?** (Controls, prioritized by risk.)
 4. **Did we do a good job?** (Validation, iteration.)
 
-That's Adam Shostack's framing, and it's better than any acronym because it's just *structured honesty about your own system*. The methodologies (STRIDE, attack trees, etc.) are tools that serve those four questions — never substitutes for them.
+That's [Adam Shostack's framing](https://shostack.org/blog/four-question-frame/), and it's better than any acronym because it's just *structured honesty about your own system*. The methodologies (STRIDE, attack trees, etc.) are tools that serve those four questions — never substitutes for them.
 
 ## Architecture: a threat modeling methodology for delivery platforms
 
@@ -70,7 +70,7 @@ Read that tree and notice: **each leaf names the control that blocks it, and eac
 
 ## STRIDE as a boundary-interrogation checklist
 
-At each trust boundary, STRIDE gives you six questions so you don't miss a category:
+At each trust boundary, [STRIDE](https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats#stride-model) gives you six questions so you don't miss a category:
 
 - **S**poofing — can an actor fake an identity here? (→ authentication: signed commits, OIDC, SVIDs)
 - **T**ampering — can data be modified in transit/at rest? (→ integrity: digests, signatures)
@@ -100,7 +100,7 @@ STRIDE isn't the model; it's a *completeness check* run at each boundary so your
 
 ## Implementation examples
 
-Shostack's four-question frame as the backbone; STRIDE-per-boundary as the completeness checklist; attack trees for the "how do they reach the asset" enumeration; lightweight tooling (OWASP Threat Dragon, or just diagrams-as-code in the repo) so the model is versioned and reviewable like everything else; for supply-chain specifically, map your model against SLSA threats and the CNCF supply-chain security whitepaper's threat catalog (Chapter 23) so you're not re-deriving known attack classes from scratch.
+Shostack's four-question frame as the backbone; STRIDE-per-boundary as the completeness checklist; attack trees for the "how do they reach the asset" enumeration; lightweight tooling ([OWASP Threat Dragon](https://owasp.org/www-project-threat-dragon/), or just diagrams-as-code in the repo) so the model is versioned and reviewable like everything else; for supply-chain specifically, map your model against [SLSA threats](https://slsa.dev/spec/v1/threats) and the [CNCF supply-chain security whitepaper's](https://tag-security.cncf.io/community/working-groups/supply-chain-security/supply-chain-security-paper/) threat catalog (Chapter 23) so you're not re-deriving known attack classes from scratch.
 
 :::tip[Key Takeaways]
 

@@ -37,7 +37,7 @@ CI build ──► registry/dev/payments@sha256:9f8e...
 
 Two common topologies: separate registries (or registry paths) per trust level with copy-on-promote and *different push credentials per level* (CI can push to dev; only the promotion service can write to prod), or a single registry where "promoted" is expressed purely through signed attestations and admission policy (Chapter 14). The second is architecturally cleaner: promotion becomes *evidence*, not *location*.
 
-**Registry internals worth knowing.** OCI registries are content-addressed stores: an image is a *manifest* (JSON listing layer digests + config digest), and the manifest's own digest is the image digest. Tags are tiny mutable references to manifests — which is precisely why they're untrustworthy and why digest-pinning works. This content-addressing is also what OCI artifacts (signatures, SBOMs, attestations stored *in the registry, attached to the digest*) build upon — the registry becomes the evidence locker, with evidence physically co-located with the thing it describes.
+**Registry internals worth knowing.** [OCI](https://opencontainers.org/) registries are content-addressed stores: an image is a *manifest* (JSON listing layer digests + config digest), and the manifest's own digest is the image digest. Tags are tiny mutable references to manifests — which is precisely why they're untrustworthy and why digest-pinning works. This content-addressing is also what OCI artifacts (signatures, SBOMs, attestations stored *in the registry, attached to the digest*) build upon — the registry becomes the evidence locker, with evidence physically co-located with the thing it describes.
 
 **Rollback.** Because promotion never destroys digests, rollback is "re-point deployment at the previous digest" — instant, exact, and carrying all its original evidence. Teams that rebuild-to-rollback discover, mid-incident, that the rebuild differs from what used to work. Retention policy corollary: never garbage-collect digests that are deployed or were recently deployed.
 
@@ -76,7 +76,7 @@ No Git change, no pipeline run, no review — the deployment "didn't change," ye
 
 ## Implementation examples
 
-ECR: immutable tags setting, per-path IAM policies, pull-through cache for upstream hygiene. Harbor: projects-as-trust-levels, replication-as-promotion, built-in signing/scanning integration. GitOps digest automation: ArgoCD Image Updater / Flux image automation writing *digests* into Git. Kyverno/Gatekeeper policies: `disallow-latest-tag`, `require-image-digest`.
+ECR: immutable tags setting, per-path IAM policies, pull-through cache for upstream hygiene. Harbor: projects-as-trust-levels, replication-as-promotion, built-in signing/scanning integration. GitOps digest automation: [ArgoCD Image Updater](https://argocd-image-updater.readthedocs.io/) / [Flux image automation](https://fluxcd.io/flux/guides/image-update/) writing *digests* into Git. [Kyverno](https://kyverno.io/)/[Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/) policies: `disallow-latest-tag`, `require-image-digest`.
 
 :::tip[Key Takeaways]
 

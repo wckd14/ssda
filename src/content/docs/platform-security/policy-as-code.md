@@ -12,7 +12,7 @@ sidebar:
 
 By now, "the policy" has appeared in almost every chapter — branch protection rules, OIDC trust conditions, admission policies, network policies, authorization policies, Vault access policies. Every one of them is *the control's control plane* — and the recurring lesson of every Architecture Conversation has been that **the attacker's real target is the policy, not the thing the policy protects**. This chapter is about the architecture of policy *itself*: where it lives, who owns it, how it's tested, how it evolves, and how you keep the entity that enforces your security from being the softest way to disable your security.
 
-Note the framing, matching the source material's intent: this is **not a chapter about OPA/Rego syntax**. Rego is a tool; you can learn it from docs in an afternoon. This is about the *architecture* of policy as a first-class platform concern.
+Note the framing, matching the source material's intent: this is **not a chapter about [OPA](https://www.openpolicyagent.org/)/Rego syntax**. Rego is a tool; you can learn it from docs in an afternoon. This is about the *architecture* of policy as a first-class platform concern.
 
 ## Mental model
 
@@ -32,7 +32,7 @@ Policy is **legislation for your platform**. And functioning legislation needs t
 
 Mature platforms place the *same intent* at multiple layers — a policy like "no privileged containers" is checked in CI (fast feedback for the developer), *enforced* at admission (unskippable), and *observed* at runtime (drift detection). Shift-left for velocity, enforce at the boundary for security — never rely on shift-left alone, because a check that runs pre-merge is a check an attacker (or a rushed engineer) routes around.
 
-**Policy ownership.** The four-domain model from Chapter 4 applies: who owns which policies? Security/platform owns the *baseline* (the non-negotiable floor: no privileged pods, signature required, default-deny); service teams own *service-specific* policy within that floor. The pattern that scales is **library policies + local parameters**: the platform team ships tested, reusable policy modules (Gatekeeper ConstraintTemplates, Kyverno policy libraries), teams instantiate them with their parameters. Reviewing the library secures every consumer — the same leverage as golden-path build templates (Chapter 5).
+**Policy ownership.** The four-domain model from Chapter 4 applies: who owns which policies? Security/platform owns the *baseline* (the non-negotiable floor: no privileged pods, signature required, default-deny); service teams own *service-specific* policy within that floor. The pattern that scales is **library policies + local parameters**: the platform team ships tested, reusable policy modules ([Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/) ConstraintTemplates, [Kyverno](https://kyverno.io/) policy libraries), teams instantiate them with their parameters. Reviewing the library secures every consumer — the same leverage as golden-path build templates (Chapter 5).
 
 **Policy testing — the discipline that separates policy-as-code from policy-as-yaml.** Untested policy is dangerous in *both* directions: a policy that's too loose fails silently (it was supposed to block X and doesn't — you find out during the breach), and a policy that's too strict causes an outage (it blocks legitimate traffic — you find out during the incident, and now "security policy" is a cursed phrase). So policies get unit tests: assert this input is denied, that input is allowed, this edge case is handled. OPA has `opa test`, Kyverno has a CLI test harness, Gatekeeper has gator. Test the *intent* — including the cases you expect to allow, because over-blocking is how good security controls get rolled back by frustrated teams.
 
@@ -77,7 +77,7 @@ And design the **exemption mechanism** deliberately: exemptions with expiry (`va
 
 ## Implementation examples
 
-OPA/Gatekeeper (ConstraintTemplates as reusable library, `gator test` in CI, audit mode via `enforcementAction: dryrun`, constraint exemptions with review); Kyverno (policies-as-CRDs, CLI test harness, `Audit` vs `Enforce` per-policy, PolicyExceptions with controlled ownership); Conftest (OPA policies against Terraform/K8s manifests in CI — shift-left layer); Terraform Sentinel/OPA (IaC policy gates); all policies deployed via ArgoCD/Flux from a strictly-governed policy repo; in-cluster change alerting via audit-log rules on `validatingwebhookconfigurations`, `clusterpolicies`, `constrainttemplates`.
+OPA/Gatekeeper (ConstraintTemplates as reusable library, `gator test` in CI, audit mode via `enforcementAction: dryrun`, constraint exemptions with review); Kyverno (policies-as-CRDs, CLI test harness, `Audit` vs `Enforce` per-policy, PolicyExceptions with controlled ownership); [Conftest](https://www.conftest.dev/) (OPA policies against Terraform/K8s manifests in CI — shift-left layer); [Terraform Sentinel](https://developer.hashicorp.com/sentinel)/OPA (IaC policy gates); all policies deployed via ArgoCD/Flux from a strictly-governed policy repo; in-cluster change alerting via audit-log rules on `validatingwebhookconfigurations`, `clusterpolicies`, `constrainttemplates`.
 
 :::tip[Key Takeaways]
 

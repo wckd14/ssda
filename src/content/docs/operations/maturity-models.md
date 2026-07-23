@@ -18,7 +18,7 @@ Maturity is not a score to maximize; it's a **deliberate trajectory matched to y
 
 ## The three frameworks worth knowing
 
-**SLSA (Supply-chain Levels for Software Artifacts)** — the build-integrity ladder, and the most directly relevant to this book. It grades *how trustworthy your build and provenance are*:
+**[SLSA](https://slsa.dev/) (Supply-chain Levels for Software Artifacts)** — the build-integrity ladder, and the most directly relevant to this book. It grades *how trustworthy your build and provenance are*:
 
 - **L0**: no guarantees. (Most orgs start here and don't know it.)
 - **L1**: provenance exists — the build produces a provenance document. Cheap, and immediately useful for the "what did we build" question.
@@ -27,9 +27,9 @@ Maturity is not a score to maximize; it's a **deliberate trajectory matched to y
 
 The insight: SLSA levels map directly onto Chapter 8's threat model. L1 answers "what did we build," L2 defeats provenance-tampering, L3 defeats build-compromise-forges-provenance. You climb by *closing specific attack classes*, not by collecting points.
 
-**NIST SSDF (Secure Software Development Framework, SP 800-218)** — the *breadth* framework. Where SLSA goes deep on build integrity, SSDF covers the whole SDLC in four practice groups: Prepare the Organization (PO), Protect the Software (PS), Produce Well-Secured Software (PW), Respond to Vulnerabilities (RV). It's outcome-based (it says *what* to achieve, not *how*), which makes it a good *coverage checklist* — "have we thought about each of these practice areas?" — and it carries regulatory weight (US federal software procurement references it, via EO 14028).
+**[NIST SSDF](https://csrc.nist.gov/pubs/sp/800/218/final) (Secure Software Development Framework, SP 800-218)** — the *breadth* framework. Where SLSA goes deep on build integrity, SSDF covers the whole SDLC in four practice groups: Prepare the Organization (PO), Protect the Software (PS), Produce Well-Secured Software (PW), Respond to Vulnerabilities (RV). It's outcome-based (it says *what* to achieve, not *how*), which makes it a good *coverage checklist* — "have we thought about each of these practice areas?" — and it carries regulatory weight (US federal software procurement references it, via [EO 14028](https://www.presidency.ucsb.edu/documents/executive-order-14028-improving-the-nations-cybersecurity)).
 
-**CIS Benchmarks / Kubernetes hardening** — the *concrete configuration* layer. Where SSDF is outcome-based and SLSA is build-focused, CIS gives you specific, checkable settings (CIS Kubernetes Benchmark, CIS Docker Benchmark) — the runtime and platform hardening baseline (Chapters 16, 17). Tools like kube-bench check compliance automatically. This is your "are the knobs set right" layer.
+**[CIS Benchmarks](https://www.cisecurity.org/benchmark/kubernetes) / Kubernetes hardening** — the *concrete configuration* layer. Where SSDF is outcome-based and SLSA is build-focused, CIS gives you specific, checkable settings (CIS Kubernetes Benchmark, CIS Docker Benchmark) — the runtime and platform hardening baseline (Chapters 16, 17). Tools like [kube-bench](https://github.com/aquasecurity/kube-bench) check compliance automatically. This is your "are the knobs set right" layer.
 
 **How they compose:** SLSA for build/artifact trust (depth on the supply chain), SSDF for whole-lifecycle coverage (breadth as a checklist), CIS for concrete platform hardening (configuration floor). They're complementary lenses, not competitors — mature programs reference all three, each answering a different question ("is our build trustworthy," "did we cover the lifecycle," "are our configs hardened").
 
@@ -85,7 +85,7 @@ You don't have *one* maturity level; you have one *per workload tier*. Crown jew
 
 ## Implementation examples
 
-SLSA: `slsa-github-generator` / GitHub artifact attestations (L2-L3 build provenance), `slsa-verifier` for verification-side; SSDF: map your controls to SP 800-218 practices as a coverage audit (many vendors provide mapping templates); CIS: kube-bench (Kubernetes benchmark), docker-bench-security, Trivy's config/misconfiguration scanning; OpenSSF Scorecard for a quick automated repo-hygiene baseline; the CNCF Software Supply Chain Security whitepaper as a threat-catalog cross-reference (Chapter 20).
+SLSA: `slsa-github-generator` / GitHub artifact attestations (L2-L3 build provenance), `slsa-verifier` for verification-side; SSDF: map your controls to SP 800-218 practices as a coverage audit (many vendors provide mapping templates); CIS: kube-bench (Kubernetes benchmark), [docker-bench-security](https://github.com/docker/docker-bench-security), Trivy's config/misconfiguration scanning; [OpenSSF Scorecard](https://securityscorecards.dev/) for a quick automated repo-hygiene baseline; the [CNCF Software Supply Chain Security whitepaper](https://tag-security.cncf.io/community/working-groups/supply-chain-security/supply-chain-security-paper/) as a threat-catalog cross-reference (Chapter 20).
 
 :::tip[Key Takeaways]
 

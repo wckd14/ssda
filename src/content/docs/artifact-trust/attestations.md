@@ -31,8 +31,8 @@ artifact@sha256:9f8e...
 Each stamp is issued by a different authority (the test runner, the scanner, the compliance checker), signed with *that authority's* identity, and physically attached to the digest in the registry. The border checkpoint (admission, Chapter 14) doesn't call each authority to ask — it *reads the dossier and verifies the stamps*.
 
 **Vocabulary, precisely:**
-- **Statement**: a claim about a subject — "digest D has property P" (in-toto's structure: subject + predicateType + predicate)
-- **Attestation**: a statement *signed* by an identity, wrapped in a DSSE envelope
+- **Statement**: a claim about a subject — "digest D has property P" ([in-toto's](https://github.com/in-toto/attestation) structure: subject + predicateType + predicate)
+- **Attestation**: a statement *signed* by an identity, wrapped in a [DSSE](https://github.com/secure-systems-lab/dsse) envelope
 - **Provenance / SBOM / scan result**: just different *predicate types* — different kinds of claims in the same envelope format. Provenance is not a different mechanism from attestations; it's the most important *instance* of one.
 
 ## Architecture
@@ -72,7 +72,7 @@ Notice what this abolishes: the deployment gate no longer *trusts the CI system'
 
 ## Implementation examples
 
-`cosign attest --type <predicate> --predicate results.json <image@digest>` in each pipeline stage; in-toto predicate conventions (slsaprovenance, cyclonedx, vuln); Kyverno `verifyImages.attestations` with `conditions` evaluating predicate fields (e.g., deny if `criticalCount > 0`); GitHub artifact attestations + `gh attestation verify`; policy-controller (Sigstore) ClusterImagePolicy for attestation-aware admission.
+`cosign attest --type <predicate> --predicate results.json <image@digest>` in each pipeline stage; in-toto predicate conventions (slsaprovenance, cyclonedx, vuln); Kyverno `verifyImages.attestations` with `conditions` evaluating predicate fields (e.g., deny if `criticalCount > 0`); GitHub artifact attestations + `gh attestation verify`; [policy-controller](https://docs.sigstore.dev/policy-controller/overview/) (Sigstore) ClusterImagePolicy for attestation-aware admission.
 
 :::tip[Key Takeaways]
 
